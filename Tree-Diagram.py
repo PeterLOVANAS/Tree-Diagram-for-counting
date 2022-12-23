@@ -201,6 +201,55 @@ class Tree_Diagram:
 
         return anslst
 
+    def Repetition_text(self):
+        lst = []
+        new_lst = []
+        if "," in self.text:
 
+            for i in self.text.split(","):
+                lst.append(i)
+
+        elif "," not in self.text:
+            raise Exception("You need to put comma between each object")
+
+        for ele in set(lst):
+            counting = lst.count(ele)
+            for i in range(1, counting + 1):
+                new_ele = ele + "_" + f"{i}"
+                new_lst.append(new_ele)
+
+        ans_str = ""
+        for items in new_lst:
+            if new_lst.index(items) != len(new_lst) -1:
+                ans_str = ans_str + items + ","
+            elif new_lst.index(items) == len(new_lst) -1:
+                ans_str = ans_str + items
+
+
+        return ans_str
+
+    def Permutations_Repetition(self , k = int):
+        # rep = ["Maximus" , "Minima", "A"]
+        # case => A_1
+
+        copy_text = self.text
+        self.text = self.Repetition_text()
+
+        permulist = self.Permutations(k)
+        repilst = []
+        for case in permulist:
+            caselst = []
+
+            for i in case:
+
+                index = i.index("_") # Don't use _ in character for self.text (User's input)
+                new_ele = i[:index]
+                caselst.append(new_ele)
+            repilst.append(tuple(caselst))
+
+        repiset = set(repilst)
+        self.text = copy_text
+
+        return list(repiset)
 
 
